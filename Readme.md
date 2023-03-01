@@ -174,4 +174,11 @@ Untuk menonaktifkan Unit test secara benar, kita bisa menggunakan annotasi @Disa
 example : 
 ``` java
 
+    @Test
+    @Disabled
+    public void testDisabledAnAnnotation() {
+        // comming soon
+    }
+
+
 ```
