@@ -1,11 +1,11 @@
 package com.java.unit;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
-/**
- * Unit test for simple App.
- */
+
+@DisplayName(value = "to test a Calculator class")
 public class CalculatorTest {
 
     private final Calculator calculator = new Calculator();
@@ -31,6 +31,7 @@ public class CalculatorTest {
         Assertions.assertEquals(1, result);
     }
 
+    @DisplayName(value = "to test a exception that throw by method decide(integer, integer)")
     @Test
     public void testDivideFail() {
         // expetasi ktia kalai ini calculator.devide(10, 0); harus melemparkan sebuah exception yang mana exception tersebuat adalah IllegalArgumentException
