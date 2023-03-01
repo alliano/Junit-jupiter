@@ -201,3 +201,23 @@ example :
         System.out.println("After Each");
     }
 ```
+
+# Sebelum dan Sesudah Unit Test (eksekusi hanya 1x)
+
+@BeforeEach dan @AfterEach akan dieksekusi setiap kali method @Test di jalankan.
+Namun kadang kita ingin melakukan sesuatu sebelum unit test berjalan, atau setelah semua unit test selesai di jalankan.
+Ini bisa dilakukan dengan menggunakan annotation @BeforeAll dan @AfterAll.
+Namun perlu di ingat @BeforeAll dan @AfterAll hanya bisa di pakai di method static.
+
+example :
+``` java
+    @BeforeAll
+    public static void beforeAll() {
+        System.out.println("Before All");
+    }
+
+    @AfterAll
+    public static void afterAll() {
+        System.out.println("After All");
+    }
+```
