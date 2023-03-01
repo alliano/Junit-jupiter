@@ -112,3 +112,66 @@ exaample:
         Assertions.assertThrows(IllegalArgumentException.class, () -> {calculator.divide(10, 0);});
     }
 ```
+
+# Menggunakan Display Name Generator
+
+JUnit mendukung pembuatan DisplayName secara otomatis menggunakan generator
+Yang perlu kita lakukan adalah membuat class turunan dari Interface DisplayNameGenerator, lalu menambahkan annotation @DisplayNameGeneration ke test Class nya .
+example :
+``` java
+import java.lang.reflect.Method;
+
+import org.junit.jupiter.api.DisplayNameGenerator;
+
+public class SimpleDisplayNameGenerator implements DisplayNameGenerator {
+
+    @Override
+    public String generateDisplayNameForClass(Class<?> testClass) {
+        return "Test "+testClass.getSimpleName();
+    }
+
+    @Override
+    public String generateDisplayNameForNestedClass(Class<?> nestedClass) {
+        throw new UnsupportedOperationException("Unimplemented method 'generateDisplayNameForNestedClass'");
+    }
+
+    @Override
+    public String generateDisplayNameForMethod(Class<?> testClass, Method testMethod) {
+        return "Test"+testClass.getSimpleName()+testMethod.getName();
+    } 
+    
+}
+```
+
+``` java
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayNameGeneration;
+import org.junit.jupiter.api.Test;
+
+@DisplayNameGeneration(value = SimpleDisplayNameGenerator.class)
+public class TestDisplayNameGenerator {
+
+    private final Calculator calculator = new Calculator();
+
+    @Test
+    public void testDicideSuccess() {
+
+        Integer result = this.calculator.divide(10, 10);
+
+        Assertions.assertNotNull(result);
+
+        Assertions.assertEquals(1, result);
+    }
+}
+```
+
+# Menonaktifkan Unit Test
+
+Kadang ada kalanya kita ingin mengnonakrifkan Unit test, misal karna terjadi error pada unitest tesesebut atau sebagainya, yang mingkin kita belum sempat memperbaikinya.
+Sebenarnya cara yang paling mudah untuk menonaktifkan Unit test adalah dengan menghapus annotasi @Test pada method unit test, namun jikalau kita lakukan hal tersebut, kita tidak bisa mendeteksi kalau ada unit test yang di disabled.
+Untuk menonaktifkan Unit test secara benar, kita bisa menggunakan annotasi @Disabled 
+
+example : 
+``` java
+
+```
