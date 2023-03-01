@@ -1,5 +1,6 @@
 package com.java.unit;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -13,7 +14,9 @@ public class CalculatorTest {
     public void testAddSuccess(){
       
         Integer result = this.calculator.add(10, 10);
-        System.out.println(result);
 
+        // menggunakan bantuan Class Assertions untuk membantu pengecekan, apakah variabel result nilai nya
+        // sesuai dengan expetasi kita (20) atau tidak
+        Assertions.assertEquals(20, result);
     }
 }
