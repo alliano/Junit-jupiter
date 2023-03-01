@@ -207,6 +207,7 @@ example :
 @BeforeEach dan @AfterEach akan dieksekusi setiap kali method @Test di jalankan.
 Namun kadang kita ingin melakukan sesuatu sebelum unit test berjalan, atau setelah semua unit test selesai di jalankan.
 Ini bisa dilakukan dengan menggunakan annotation @BeforeAll dan @AfterAll.
+@BeforeAll dan @AfterAll hanya akan 1x di eksekusi saat Class unit test di jalankan berbeda dengan annotasi @BeforeEach dan @AfterEach
 Namun perlu di ingat @BeforeAll dan @AfterAll hanya bisa di pakai di method static.
 
 example :
