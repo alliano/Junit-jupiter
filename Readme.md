@@ -173,12 +173,31 @@ Untuk menonaktifkan Unit test secara benar, kita bisa menggunakan annotasi @Disa
 
 example : 
 ``` java
-
     @Test
     @Disabled
     public void testDisabledAnAnnotation() {
         // comming soon
     }
+```
 
+# Sebelum dan Sesudah Unit Test
 
+Kadang kita ingin menjalankan kode yang sama sebelum dan sesudah eksekusi unit test
+Hal ini sebenarnya bisa dilakukan secara manual di method test @Test nya, namun hal ini akan membuat banyak kode duplikat dan redundan.
+JUnit memiliki annotation @BeforeEach dan @AfterEach.
+@BeforeEach diguakan untuk menandai method yang akan di eksekusi sebelum unit test dijalankan.
+@AfterEach digunakan untuk menandai mehthod yang akan di eksekusi setelah unit test dijalankan.
+Perlu di inigat bahwa ini akan selalu di eksekusi setipa kali sebuah mehtod @Test, bukan sekali untuk class test saja, misal dalam classTest kita memiliki 10 method Unit test maka Mehtod yang kita annotasi sebagai @BeforEach atau @AfterEach ini akan di eksekusi sebanyak 10 kali.
+
+example : 
+``` java
+    @BeforeEach
+    public void setUp() {
+        System.out.println("Before Each");
+    }
+
+    @AfterEach
+    public void tireDown() {
+        System.out.println("After Each");
+    }
 ```
