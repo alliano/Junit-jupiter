@@ -1,6 +1,7 @@
 package com.java.unit;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -37,6 +38,12 @@ public class CalculatorTest {
         // expetasi ktia kalai ini calculator.devide(10, 0); harus melemparkan sebuah exception yang mana exception tersebuat adalah IllegalArgumentException
         // disini harus terjadi sebuah exception jikalau tidak terjadi maka unit tes kita ini gagal
         Assertions.assertThrows(IllegalArgumentException.class, () -> {calculator.divide(10, 0);});
+    }
+
+    @Test
+    @Disabled
+    public void testDisabledAnAnnotation() {
+        // comming soon
     }
 
 
