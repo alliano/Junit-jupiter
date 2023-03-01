@@ -96,3 +96,19 @@ example :
         Assertions.assertThrows(IllegalArgumentException.class, () -> {calculator.divide(10, 0);});
     }
 ```
+
+# Mengubah Nama Test
+
+Terkadang lumayan susah mebuat nama unit test sesuai dengan sekenario atau kasus yang merepresentasikan dari unit test yang akan kita buat.
+Jika kita ingin menambahkan deskripsi untuk tiap-tiap unit test kita, kita bisa menggunakan sebuah annotation @DisplayName(value = "message or description")
+Dengan annotasi @DisplayName() kita bisa menambahkan deskripsi unit test nya
+@DisplayName bisa kita gunakan di level method ataupun class
+exaample: 
+``` java
+    // ini kita pakai @DisplayName() pada level Mehod
+    @DisplayName(value = "to test a exception that throw by method decide(integer, integer)")
+    @Test
+    public void testDivideFail() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {calculator.divide(10, 0);});
+    }
+```
