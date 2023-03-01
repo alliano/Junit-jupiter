@@ -34,3 +34,37 @@ public class CalculatorTest {
     }
 }
 ```
+
+# Assertions
+
+Saat membuat test, kita harus memastikan bahwa unit test yang kita buat sesuai dengan ekpetasi yang kita inginkan
+Jika manual, kita bisa melakukan menggunakan pengecekan if else namun itu tidak direkomendasikan
+example : 
+``` java
+    @Test
+    public void testAddSuccess(){
+      
+        Integer result = this.calculator.add(10, 10);
+
+        // membuat test secara manual tampa menggunakan bantuan Class Assertions
+        if(result != 20) {
+            throw new RuntimeException("Test Gagal");
+        }
+    }
+```
+
+Junit memiliki fitur yang melakukan assertions, yaitu memastikan bahwa unit test yang kita buat sesuai dengan kondisi yang kita inginkan
+example : 
+``` java
+    @Test
+    public void testAddSuccess(){
+      
+        Integer result = this.calculator.add(10, 10);
+
+        // menggunakan bantuan Class Assertions untuk membantu pengecekan, apakah variabel result nilai nya
+        // sesuai dengan expetasi kita (20) atau tidak
+        Assertions.assertEquals(20, result);
+    }
+```
+Assertions di JUnit di representasikan oleh class Assertions, dan didalamnya terdapat banyak sekali method static yang kita bisa gunakan untuk pengecekan expetasi kita.
+refrence : https://junit.org/junit5/dosc/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
