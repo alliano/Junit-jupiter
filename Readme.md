@@ -116,7 +116,8 @@ exaample:
 # Menggunakan Display Name Generator
 
 JUnit mendukung pembuatan DisplayName secara otomatis menggunakan generator
-Yang perlu kita lakukan adalah membuat class turunan dari Interface DisplayNameGenerator, lalu menambahkan annotation @DisplayNameGeneration ke test Class nya .
+Yang perlu kita lakukan adalah membuat class turunan dari Interface DisplayNameGenerator, lalu menambahkan annotation @DisplayNameGeneration ke test Class nya.
+
 example :
 ``` java
 import java.lang.reflect.Method;
