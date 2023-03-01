@@ -67,4 +67,32 @@ example :
     }
 ```
 Assertions di JUnit di representasikan oleh class Assertions, dan didalamnya terdapat banyak sekali method static yang kita bisa gunakan untuk pengecekan expetasi kita.
-refrence : https://junit.org/junit5/dosc/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
+
+# Menggagalkan Test
+
+Dalam pembuatan unit test terkadang kita berharap untuk menggagalkan program yang kita jalankan, kita tidak hanya ingin mengetes success nya aja, namun kita juga ingin mengetahui bagaimna jika program kita gagal.
+Adakalanya kita ingin mengetes sebuah exception yang kita buat sebelumnya misalnya 
+Assetions juga bisa digunakan untuk mengecek apakah sebuah exception terjadi pada program yang kita test
+
+example :
+``` java
+    // ini untuk mengetes method divide dengan expetasi success 
+    @Test
+    public void testDivideSuccess() {
+
+        Integer result = calculator.divide(10, 10);
+
+        // expetasi kita disini 10 : 10 itu nga null
+        Assertions.assertNotNull(result);
+        // expetasi kita disini 10 : 10 itu hasil nya 1
+        Assertions.assertEquals(1, result);
+    }
+
+    // ini untuk mengetes method divide denga expetasi gagal (terjadi exception)
+    @Test
+    public void testDivideFail() {
+        // expetasi ktia kalai ini calculator.devide(10, 0); harus melemparkan sebuah exception yang mana exception tersebuat adalah IllegalArgumentException
+        // disini harus terjadi sebuah exception jikalau tidak terjadi maka unit tes kita ini gagal
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {calculator.divide(10, 0);});
+    }
+```
