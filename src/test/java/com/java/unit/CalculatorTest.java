@@ -10,6 +10,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.DisabledOnOs;
+import org.junit.jupiter.api.condition.EnabledOnOs;
+import org.junit.jupiter.api.condition.OS;
 import org.opentest4j.TestAbortedException;
 
 
@@ -99,6 +102,16 @@ public class CalculatorTest {
         Assumptions.assumeTrue(profile.equals("PROD"));
     }
 
+    @Test
+    @EnabledOnOs(value = {OS.LINUX})
+    public void testForLinux() {
+        System.out.println("Unit tes ini untuk Linux");
+    }
 
+    @Test
+    @DisabledOnOs(value = {OS.LINUX})
+    public void testDisableForLinux() {
+        System.out.println("Unit test ini bukan untuk Linux");
+    }
 
 }
