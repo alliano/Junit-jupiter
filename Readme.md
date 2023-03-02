@@ -293,3 +293,50 @@ example :
         System.out.println("Unit test ini bukan untuk Linux");
     }
 ```
+
+# Enable Disable Java version
+
+@EnableOnJre(value = JRE) digunakan untuk penanda bahwa unit test hanya boleh berjalan pada versi java tertentu.
+
+example : 
+
+``` java
+    @Test
+    @EnabledOnJre(value = {JRE.JAVA_18})
+    public void testEnableOnJava18() {
+        System.out.println("test untuk java versi 18");
+    }
+```
+
+@DisableOnJre(value = JRE) digunakan untuk menandai bahwa unit tes tidak boleh berjalan pada versi java tertentu
+
+example : 
+``` java
+    @Test
+    @DisabledOnJre(value = {JRE.JAVA_18}, disabledReason = "because this unit test not allowed in java 18")
+    public void testDisableOnJava18() {
+        System.out.println("test disable untuk java 18");
+    }
+```
+
+@EnableForJreRange(min = JRE, max = JRE) digunakan untuk penanda bahwa unit test boleh jalan pada range versi java tertentu.
+
+example : 
+``` java
+    @Test
+    @EnabledForJreRange(min = JRE.JAVA_17, max = JRE.JAVA_18)
+    public void testEnableJavaFromRange11to17() {
+        System.out.println("test untuk java versi 11 - 17");
+    }
+```
+
+@DisableForJreRange(min = JRE, max = JRE) digunakan untuk penanda bahwa unit test ini tidak boleh jalan pada range versi java tertentu.
+
+example : 
+``` java
+    @Test
+    @DisabledForJreRange(min = JRE.JAVA_11, max = JRE.JAVA_17)
+    public void testDisableJavaFromRange11to17() {
+        System.out.println("test untuk java versi 11 - 17");
+    }
+```
