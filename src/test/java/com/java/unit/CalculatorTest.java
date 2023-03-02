@@ -1,5 +1,6 @@
 package com.java.unit;
 
+
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.opentest4j.TestAbortedException;
 
 
 @DisplayName(value = "to test a Calculator class")
@@ -69,6 +71,19 @@ public class CalculatorTest {
     @Disabled
     public void testDisabledAnAnnotation() {
         // comming soon
+    }
+
+    @Test
+    public void testAbortedException() {
+
+        var profile = System.getenv("DEV");
+        
+        if(!"DEV".equals(profile)) {
+            throw new TestAbortedException("Test di batalkan karna tidak dalam mode DEVELOPMENT");
+        }
+        else {
+            // unit test
+        }
     }
 
 
