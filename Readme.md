@@ -245,3 +245,24 @@ example :
         }
     }
 ```
+
+# Assumption
+
+Sebelumnya kita sudah tau jika ingin membatalkan unit test, kita bisa menggunakan exception TestAbortedException.
+Namun ada cara yang lebih tepat, yaitu dengan menggunakan Assumption.
+Penggunaan Assumption mirip dengan Assertion, jika nilai tidak sama maka method Assuption akan throw TestAbortedException, sehingga secara otomatis akan membatalkan Unit test yang throw exception tersebut.
+
+example : 
+``` java
+    @Test
+    public void testAssumption() {
+
+        String profile = "DEV";
+
+        // disini ekpetasi kita variabel profile itu samadengan PROD jikalau bukan PROD maka
+        // class Assumption ini akan throw TestAbortedException dan unit test kita ini akan dibatalkan
+        // kita bisa menggunakan ini untuk kasus yang mana kita ingin suatu kondisi terpenuhi, dan jikalau
+        // kondisi tidak terpenuhi maka unit test harus di batalkan
+        Assumptions.assumeTrue(profile.equals("PROD"));
+    }
+```
