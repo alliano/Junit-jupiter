@@ -4,6 +4,7 @@ package com.java.unit;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Assumptions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Disabled;
@@ -76,7 +77,7 @@ public class CalculatorTest {
     @Test
     public void testAbortedException() {
 
-        var profile = System.getenv("DEV");
+        var profile = System.getenv("PROFILE");
         
         if(!"DEV".equals(profile)) {
             throw new TestAbortedException("Test di batalkan karna tidak dalam mode DEVELOPMENT");
@@ -86,6 +87,17 @@ public class CalculatorTest {
         }
     }
 
+    @Test
+    public void testAssumption() {
+
+        String profile = "DEV";
+
+        // disini ekpetasi kita variabel profile itu samadengan PROD jikalau bukan PROD maka
+        // class Assumption ini akan throw TestAbortedException dan unit test kita ini akan dibatalkan
+        // kita bisa menggunakan ini untuk kasus yang mana kita ingin suatu kondisi terpenuhi, dan jikalau
+        // kondisi tidak terpenuhi maka unit test harus di batalkan
+        Assumptions.assumeTrue(profile.equals("PROD"));
+    }
 
 
 
