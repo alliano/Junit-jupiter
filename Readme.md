@@ -223,3 +223,25 @@ example :
         System.out.println("After All");
     }
 ```
+
+# Membatalkan unit test
+
+Kadang kita ingin membatalkan Unit test pada keadaan tertentu terjadi.
+Untuk membatalkanya, kita bisa menggunakan Exception TestAbortedException.
+Jikalau Junit mendapatkan exception tersebut maka unit test yang throw Exception tersebuat akan di batalkan.
+
+example :
+``` java
+    @Test
+    public void testAbortedException() {
+
+        var profile = System.getenv("DEV");
+        
+        if(!"DEV".equals(profile)) {
+            throw new TestAbortedException("Test di batalkan karna tidak dalam mode DEVELOPMENT");
+        }
+        else {
+            // unit test
+        }
+    }
+```
