@@ -266,3 +266,30 @@ example :
         Assumptions.assumeTrue(profile.equals("PROD"));
     }
 ```
+
+# Test Berdasarkan Kondisi
+
+Sebenarnya kita bisa menggunakan Assumption untuk menjalankan unit test berdasarkan kondisi tertentu.
+Namun JUnit menyediakan fitur yang lebih mudah untuk pengecekan beberapa kondisi seperti, sistem operasi, versi java, System property, dan lain lain.
+Ini lebih mudah dibandingkan menggunakan Assertions.
+
+# Cek Berdasarkan System Operasi
+
+Untuk Kondisi system operasi, kita bisa menggunakan beberapa annotation.
+@EnableOnOs(value = OS) digunakan untuk penanda bahwa unit test boleh berjalan pada system operasi yang sudah di tentukan.
+@DisableOnOs(value = OS) digunakan utntuk penanda bahwa unit test tidak boleh berjalan di system operasi yang ditentukan.
+
+example : 
+``` java
+    @Test
+    @EnabledOnOs(value = {OS.LINUX})
+    public void testForLinux() {
+        System.out.println("Unit tes ini untuk Linux");
+    }
+
+    @Test
+    @DisabledOnOs(value = {OS.LINUX})
+    public void testDisableForLinux() {
+        System.out.println("Unit test ini bukan untuk Linux");
+    }
+```
