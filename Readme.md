@@ -340,3 +340,53 @@ example :
         System.out.println("test untuk java versi 11 - 17");
     }
 ```
+
+# Kondisi System Property
+
+Untuk kondisi dari system property, kita bisa menggunakan beberapa annotation.
+System propery dapat kita lihat dengan cara sebagai berikut :
+``` java
+    @Test
+    public void testSystemProperies() {
+        // ini akan menampilkan semua properties yang dimiliki oleh jdk kita
+        System.getProperties().forEach( (key, value) -> {
+            System.out.println(key+" : "+value);
+        } );
+    }
+```
+@EnabledIfSystemProperty() untuk penanda bahwa unit test boleh jalan jika system property sesuai dengan yang di tentukan.
+
+example : 
+``` java
+    // unit test ini akan dijalankan jika major dari java kita atau java.class.version kita adalah 62.0
+    @Test @EnabledIfSystemProperty(named = "java.class.version", matches = "62.0")
+    public void testEnableIfSystemProperty(){
+        System.out.println("testEnableIfSystemProperty berjalan");
+    }
+```
+@DisabledIfSystemProperty() untuk penanda bahwa unit test tidak boleh berjalan jika system property sesuai dengan yang ditentukan.
+
+example : 
+``` java
+    // Test ini tidak akan dijalankan jika user.language nya itu en
+    @Test @DisabledIfSystemProperty(named = "user.language", matches = "en")
+    public void testDisableIfSystemProperty(){
+        System.out.println("testDisableIfSystemProperty");
+    }
+```
+Jika kondisinya lebih dar 1 kita bisa menggunakan @EnabledIfSystemProperties() atau @DisabledIfSystemProperties().
+
+example :
+``` java
+    // test ini akan berjalan jika 2 kondisi yang kita buat (@EnabledIfSystemProperty) ini terpenuhi
+    @Test @EnabledIfSystemProperties(value = {@EnabledIfSystemProperty(named = "native.encoding", matches = "UTF-8"), @EnabledIfSystemProperty(named = "java.vm.specification.vendor", matches = "Oracle Corporation")})
+    public void testEnabledIfSystemPropertys() {
+        System.out.println("testEnabledIfSystemPropertys berjalan");
+    }
+
+    // test ini tidak akan berjalan jika 2 kondisi annotasi (@DisabledIfSystemProperty) yang kita buat terpenuhi
+    @Test @DisabledIfSystemProperties(value = {@DisabledIfSystemProperty(named = "java.vendor", matches = "N/A"), @DisabledIfSystemProperty(named = "os.arch", matches = "amd64")})
+    public void testDisbleIfSystemProperties() {
+        System.out.println("testDisbleIfSystemProperties");
+    }
+```
