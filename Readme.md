@@ -432,3 +432,75 @@ example :
         System.out.println("testDisabledIfEnvironmentVariables");
     }
 ```
+
+# Menggunakan Tag
+
+class atau method/function dalam unit test bisa kita tambahkan tag(tanda), dengan cara mengannotasi dengan anotasi @Tag.
+dengan menambahakan @Tag pada unit test, ktia bisa fleksibel ketika ingin menjalankan class atau unit test tertentu.
+Jika kita menambahkan @Tag pada class unit test, secara otomatis semua method/function pada class unit test tesebut akan memiliki tag tersebut.
+Jika kita inign menabahkan beberapa tag pada class atau mehtod unit test, kita bisa menggunakan annotasi @Tags.
+
+example :
+``` java
+
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Test;
+
+// annotasi @Tag ini akan diturunkan atau di wariskan ke method-metod dalam class ini
+@Tag(value = "test-intregation-services")
+public class IntregationTest {
+    
+    @Test
+    public void testPaymentService() {
+        System.out.println("test payment service");
+    }
+
+    @Test
+    public void testAccountService() {
+        System.out.println("test account service");
+    }
+
+    @Test
+    public void testOtpservice() {
+        System.out.println("test otp service");
+    }
+}
+```
+
+jika kita ingin tagnya itu lebih dari 1 kita bisa menggunakan annotati @Tags.
+
+example :
+``` java
+import org.junit.jupiter.api.Tag;
+import org.junit.jupiter.api.Tags;
+import org.junit.jupiter.api.Test;
+
+@Tags(value = {
+    @Tag(value = "test-intregation-service"),
+    @Tag(value = "test-services")
+})
+public class IntregationTest {
+    
+    @Test
+    public void testPaymentService() {
+        System.out.println("test payment service");
+    }
+
+    @Test
+    public void testAccountService() {
+        System.out.println("test account service");
+    }
+
+    @Test
+    public void testOtpservice() {
+        System.out.println("test otp service");
+    }
+}
+```
+cara menjalankan tag nya, kita bisa menggunakan command maven, dengan command mvn test -Dgroups=nama-tag1, nama-tag2
+
+example :
+
+``` bash
+mvn test -Dgroups=test-intregation-services
+```
