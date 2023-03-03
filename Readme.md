@@ -450,7 +450,7 @@ import org.junit.jupiter.api.Test;
 @Tag(value = "test-intregation-services")
 public class IntregationTest {
     
-    @Test
+    @Test // jadi secara tidak langsung semua method method ini memiliki annotasi @Tag
     public void testPaymentService() {
         System.out.println("test payment service");
     }
