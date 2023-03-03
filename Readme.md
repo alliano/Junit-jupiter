@@ -788,3 +788,72 @@ public class InformationTest {
     }
 }
 ```
+
+# Dependency Injection Unit Test
+
+Sebenarnya fitur TestInfo yang sebelumnya kita pakai adalah bagian dari dependency Injection di JUnit.
+Dependency Injection sederhananya adalah bagaimana kita memasukan dependency (Object/Instance) kedalam unit test secara otomatis tampa proses manual.
+Saat kita menambahakan parameter di function atau method unit test, sebenarnya kita bisa secara otomatis meng inject parameter tersebut dengan bantuan ParameterResolver.
+Contoh nya Testinfo yang kita bahas sebelumnya, sebenarnya Object dibuat oleh TestInfoParameterResolver.
+
+Example :
+
+``` java
+import java.util.Random;
+
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.ParameterContext;
+import org.junit.jupiter.api.extension.ParameterResolutionException;
+import org.junit.jupiter.api.extension.ParameterResolver;
+
+// Contoh membuat Object yang kita akan inject di paramter nantinya
+// ini kita meng implementasi ParameterResolver
+public class RandomParameterResolver implements ParameterResolver {
+
+    private final Random random = new Random();
+
+    // method ini untuk menentukan tipe parameter apa yang kita akan Inject, dalam contoh ini adalah tipe java.util.Random
+    @Override
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return parameterContext.getParameter().getType() == Random.class;
+    }
+
+    // disini proses inject terjadi
+    @Override
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) throws ParameterResolutionException {
+        return this.random;
+    }
+    
+}
+```
+# Meregistrasikan ParameterResolver
+
+Untuk menggunakan RandomParameterResolver yang sudah kita buat, kita bisa meregistrasikan dengan menggunakan annotasi @ExtendWith().
+Jikalau Kita ingin meregistrasikan Lebih dari 1 ParameterResolvernya (dalam konteks ini adalan class RandomParameterResolver implementasi dari ParameterResolver) kita bisa menggunakan annotasi @Extentions().
+
+example : 
+``` java
+// disni kita registrasikan class RandomParameterResolver.class yang kita buat tadi
+@Extensions(value = {
+    @ExtendWith(value = RandomParameterResolver.class)
+})
+public class RandomCalculatorTest {
+    
+    private Calculator calculator = new Calculator();
+
+    @Test // disni proses inject akan dilakukan oleh class RandomParameterResolver.class yang mana
+    // class tersebut adalah implementasi dari ParameterResolver
+    public void testRandomAdd(Random random) {
+
+        int bilanganPertama = random.nextInt();
+
+        int bilanganKedua = random.nextInt();
+
+        Integer result = this.calculator.add(bilanganPertama, bilanganKedua);
+
+        int expected = (bilanganPertama+bilanganKedua);
+
+        Assertions.assertEquals(expected, result);
+    }
+}
+```
