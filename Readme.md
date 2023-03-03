@@ -631,3 +631,132 @@ public class LifecycleTest {
     }
 }
 ```
+
+# Siklus Hidup Test
+
+Secara default siklus hidup(LifeCycle) object class itu independent permethod unit test nya, artinya object class unit test akan selalu dibuat baru permethod unit test nya, oleh karna itu method unit test tidakbisa bergantung kepada method unit test yang lainya.
+Cara pembuatan object di JUnit test ditentukan oleh annotation @TestInstance(), yang mna default parameternya itu adalah Lifecycle.PER_METHOD, artinya tiap method akan dibuatkan sebuah instance atau object baru.
+Jikalau kita nga mau tiap method nya itu menginstance object baru kita bisa ubah parameter dari @TestInstance() dengan Lifecycle.PER_CLASS, dengan demikian instance atau object test hanya dibuat satu kali per class, dan method unit test akan menggunakan object atau instance test yang sama.
+Hal ini bisa kita manfaatkan ketika kita membuat method unit test yang tergantung pada method test lainya.
+
+example :
+``` java
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.api.TestInstance.Lifecycle;
+
+@TestInstance(value = Lifecycle.PER_CLASS)
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
+public class LifecycleTest {
+
+    /**
+     * jika kita menggunakan MethodOrderer.OrderAnnotation.class
+     * ini artinya pembuatan obejek untuk unit test nya hanya 1x dan utnk method unit test selanjutnya
+     * akan menggunakan objeck yang sama, gambaraya sebagai berikut :
+     * 
+     * LifecycleTest lifeCycle = new LifecycleTest();
+     * lifeCycle.test1();
+     * lifeCycle.test2();
+     * lifeCycle.test3();
+     * lifeCycle.test4();
+     * 
+     * jikalau kita menggunakan Lifecycle.PER_METHOD itu tiap method unit test itu akan membuat instance
+     * atau objek baru, gambaranya sebagai berikut : 
+     * 
+     * Lifecycele lifeCycl1 = new LifeCycle();
+     * lifeCycle1.test1();
+     * 
+     * Lifecycele lifeCycl2 = new LifeCycle();
+     * lifeCycle2.test2();
+     * 
+     * Lifecycele lifeCycl3 = new LifeCycle();
+     * lifeCycle3.test3();
+     * 
+     * 
+     * Lifecycele lifeCycl4 = new LifeCycle();
+     * lifeCycle4.test4();
+     */
+
+
+     // disinini karna kita menggunakan LifeCycele.PER_CLASS maka nilai dari property 
+     // counter akan selalu di tambhkan tiap method test dijalankan
+    private int counter = 0;
+
+    @Test @Order(value = 4)
+    public void test1() {
+        this.counter++;
+        System.out.println("nilai counter : "+this.counter);
+    }
+
+    @Test @Order(value = 2)
+    public void test2() {
+        this.counter++;
+        System.out.println("nilai counter :  "+this.counter);
+    }
+    
+    @Test @Order(value = 1)
+    public void test3() {
+        this.counter++;
+        System.out.println("nilai counter :  "+this.counter);
+    }
+
+    @Test @Order(value = 3)
+    public void test4() {
+        this.counter++;
+        System.out.println("nilai counter :  "+this.counter);
+    }
+}
+```
+
+# Keuntungan menggunakan Lifecycle.PER_CLASS
+ 
+ salahsatu keuntungan menggunakan Ligfecycle.PER_CLASS adalah kita bisa menggunakan @BeforeAll dan @AfterAll tampa menggunakan method static, dan masih banyak lagi keuntungan nya.
+
+# Nested Test
+
+Saat membuat unit test, adabaiknya ukuran test class nya tidak terlalu besar, karna jikalau terlau besar itu akan susah di baca dan dimengerti.
+Jika test class sudah semakin besar, ada baiknya kita pecah menjadi beberapa test class, lalu kita grouping sesuai dengan jenis method test nya.
+Junit mendukung pembuatan nested class test (class unit test didalam class unit test), jadi kita bisa memecah class test, tampa harus membuat class di file yang berbeda, kita bisa cukup menggunkan inner class.
+Untuk memberitau bahwa inner class tersebuat adalah class unit test kita bisa meng annotasi inner class tersebut dengan ananotasi @Nested
+
+example :
+``` java
+import java.util.LinkedList;
+import java.util.Queue;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
+
+@DisplayName(value = "A Queue")
+public class QueueTest {
+    
+    private Queue<String> queue;
+
+    // ini adalah Nested class atau inner class annotasi 
+    // @Nested untuk memberitahu bahwa class ini adalah class unit test
+    @Nested @DisplayName(value = "When new")
+    public class WhenNew {
+
+        @BeforeEach
+        public void setup() {
+            queue = new LinkedList<String>();
+        }
+
+        @Test @DisplayName(value = "When offer 1, the size must be 1")
+        public void whenOfferQueue() {
+            queue.offer("Alliano");
+            Assertions.assertEquals(1, queue.size());
+
+            Assertions.assertEquals("Alliano", queue.poll());
+        }
+
+    }
+}
+```
+
