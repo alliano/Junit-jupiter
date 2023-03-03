@@ -391,3 +391,44 @@ example :
         System.out.println("testDisbleIfSystemProperties");
     }
 ```
+
+# Enable Disable Berdasarkan Environment Variable
+
+Untuk kondisi nilai dari environment variable, kita bisa menggunakan beberapa annotations.
+@EnableEnvironmentVariable() untuk penanda bahwa unit test boleh berjalan jika environment variabel nya sesuai dengan yang ditentukan.
+
+example : 
+``` java
+    @Test @EnabledIfEnvironmentVariable(named = "profile", matches = "dev")
+    public void testEnabledIfEnvironmentVariable(){
+        System.out.println("EnabledIfEnvironmentVariable jalan");
+    }
+```
+
+@DisableIfEnvironmentVariable() untuk penanda bahwa unit test tidak boleh berjalan jika environment variable sesuai dengan yang kita tentukan.
+
+example : 
+``` java
+    @Test @DisabledIfEnvironmentVariable(named = "profile", matches = "dev")
+    public void testDisabledIfEnvironmentVariable(){
+        System.out.println("DisabledIfEnvironmentVariable");
+    }
+```
+
+jika kondisinya lebih dari satu, kita bisa menggunakan @EnableEnvironmentVariables() dan @DisableIfEnvironmentVariables().
+
+example : 
+``` java
+    // jika profile nya itu dev dan psql_passwad itu mangekyo pada environment variable, maka unit test ini akan dijalankan
+    // simple nya jika 2 kondisi @EnabledIfEnvironmentVariable() ini terpenuhi maka akan di jalankan unit test ini
+    @Test @EnabledIfEnvironmentVariables(value = {@EnabledIfEnvironmentVariable(named = "profile", matches = "dev"), @EnabledIfEnvironmentVariable(named = "psql_passwad", matches = "mangekyo")})
+    public void testEnabledIfEnvironmentVariables() {
+        System.out.println("testEnabledIfEnvironmentVariables jalan");
+    }
+
+    // jika profile nya itu prod dan test pada environment variable maka test ini tidak akan dijalankan
+    @Test @DisabledIfEnvironmentVariables(value = {@DisabledIfEnvironmentVariable(named = "profile", matches = "prod"), @DisabledIfEnvironmentVariable(named = "profile", matches = "test")})
+    public void testDisabledIfEnvironmentVariables() {
+        System.out.println("testDisabledIfEnvironmentVariables");
+    }
+```
