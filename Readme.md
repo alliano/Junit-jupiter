@@ -497,10 +497,137 @@ public class IntregationTest {
     }
 }
 ```
-cara menjalankan tag nya, kita bisa menggunakan command maven, dengan command mvn test -Dgroups=nama-tag1, nama-tag2
+cara menjalankan tag nya, kita bisa menggunakan command maven, dengan command mvn test -Dgroups=nama-tag1, nama-tag2, maka class unit test yang berjalan itu hanya class unit test yaang kita sebuatkan tagnya dalam contoh kali ini unit test yang dijalankan hanya unit test yang memiliki tag nama-tag1, nama-tag2.
 
 example :
 
 ``` bash
-mvn test -Dgroups=test-intregation-services
+mvn test -Dgroups=test-services,test-intregation-service
+```
+
+# Mengubah Urutan Eksekusi Unit Test
+
+JUnit mendukung perubahan urutan eksekusi unit test jika kita mau menggunakan annotasi @TestMethodOrder(value = MethodOrderer).
+Ada beberapa class yang kita bisa gunakan untuk mengurutkan eksekusi unit test.
+MethodName => eksekusi unit test akan di urutkan berdasarkan alphanumeric.
+Random => ururan eksekusi unit test akan secara acak.
+OrderAnnotation => urutan eksekusi unit test nya akan mengikuti annotation @Order yang ada pada tiap tiap mehtod unit test nya.
+
+example :
+
+menggunakan MethodOrderer.OrderAnnotation
+
+``` java
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(value = MethodOrderer.OrderAnnotation.class)
+public class LifecycleTest {
+    
+    /**
+     * disini kita mengguanakan pengurutan menggunakan MethodOrderer.OrderAnnotation.class
+     * urutan method ekseskuisi ini akan diururtkan berdasarkan parameter yang ada pada annotasi @Order
+     */
+
+    @Test @Order(value = 4)
+    public void test1() {
+        System.out.println("tes 1");
+    }
+
+    @Test @Order(value = 2)
+    public void test2() {
+        System.out.println("test 2");
+    }
+    
+    @Test @Order(value = 3)
+    public void test3() {
+        System.out.println("test 3");
+    }
+
+    @Test @Order(value = 1)
+    public void test4() {
+        System.out.println("test 4");
+    }
+}
+```
+
+menggunakan MethodOrderer.Random.class
+
+example :
+``` java
+
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(value = MethodOrderer.Random.class)
+public class LifecycleTest {
+
+    /**
+     * disini kita menggunakan MethodOrderer.Random.class
+     * maka eksekusi unit test nya akan dilakukan secara acak
+     */
+
+    @Test
+    public void test1() {
+        System.out.println("tes 1");
+    }
+
+    @Test
+    public void test2() {
+        System.out.println("test 2");
+    }
+    
+    @Test
+    public void test3() {
+        System.out.println("test 3");
+    }
+
+    @Test
+    public void test4() {
+        System.out.println("test 4");
+    }
+}
+```
+
+menggunakan MethodOrderer.MethodName.class
+
+example :
+``` java
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
+@TestMethodOrder(value = MethodOrderer.MethodName.class)
+public class LifecycleTest {
+
+    /**
+     * disini kita menggunakan MethodOrderer.MethodName.class
+     * ini akan mengeksekusi unit test berurutan berdasarkan nama method nya 
+     * misal jika nama method nya test1, test2, test3 maka eksekusi unit testnya akan berurutan 
+     * dari test1, test2, test3
+     */
+
+    @Test
+    public void test1() {
+        System.out.println("tes 1");
+    }
+
+    @Test
+    public void test2() {
+        System.out.println("test 2");
+    }
+    
+    @Test
+    public void test3() {
+        System.out.println("test 3");
+    }
+
+    @Test
+    public void test4() {
+        System.out.println("test 4");
+    }
+}
 ```
