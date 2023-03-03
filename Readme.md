@@ -829,7 +829,7 @@ public class RandomParameterResolver implements ParameterResolver {
 # Meregistrasikan ParameterResolver
 
 Untuk menggunakan RandomParameterResolver yang sudah kita buat, kita bisa meregistrasikan dengan menggunakan annotasi @ExtendWith().
-Jikalau Kita ingin meregistrasikan Lebih dari 1 ParameterResolvernya (dalam konteks ini adalan class RandomParameterResolver implementasi dari ParameterResolver) kita bisa menggunakan annotasi @Extentions().
+Jikalau Kita ingin meregistrasikan Lebih dari 1 ParameterResolvernya (dalam konteks ini adalan class RandomParameterResolver implementasi dari ParameterResolver) kita bisa menggunakan annotasi @Extensions().
 
 example : 
 ``` java
