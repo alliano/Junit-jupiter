@@ -2,11 +2,15 @@ package com.java.unit;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.condition.DisabledForJreRange;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.DisabledIfEnvironmentVariables;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperties;
 import org.junit.jupiter.api.condition.DisabledIfSystemProperty;
 import org.junit.jupiter.api.condition.DisabledOnJre;
 import org.junit.jupiter.api.condition.DisabledOnOs;
 import org.junit.jupiter.api.condition.EnabledForJreRange;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariable;
+import org.junit.jupiter.api.condition.EnabledIfEnvironmentVariables;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperties;
 import org.junit.jupiter.api.condition.EnabledIfSystemProperty;
 import org.junit.jupiter.api.condition.EnabledOnJre;
@@ -82,5 +86,30 @@ public class ConditionTest {
     @Test @DisabledIfSystemProperties(value = {@DisabledIfSystemProperty(named = "java.vendor", matches = "N/A"), @DisabledIfSystemProperty(named = "os.arch", matches = "amd64")})
     public void testDisbleIfSystemProperties() {
         System.out.println("testDisbleIfSystemProperties");
+    }
+
+    // jika profile nya dalam environment variable nya itu dev maka unit test ini akan dijalankan
+    @Test @EnabledIfEnvironmentVariable(named = "profile", matches = "dev")
+    public void testEnabledIfEnvironmentVariable(){
+        System.out.println("EnabledIfEnvironmentVariable jalan");
+    }
+
+    // jika profile pada environment variable nya itu dev maka unit test ini tidak akan dijalankan
+    @Test @DisabledIfEnvironmentVariable(named = "profile", matches = "dev")
+    public void testDisabledIfEnvironmentVariable(){
+        System.out.println("DisabledIfEnvironmentVariable");
+    }
+
+    // jika profile nya itu dev dan psql_passwad itu mangekyo pada environment variable, maka unit test ini akan dijalankan
+    // simple nya jika 2 kondisi @EnabledIfEnvironmentVariable() ini terpenuhi maka akan di jalankan unit test ini
+    @Test @EnabledIfEnvironmentVariables(value = {@EnabledIfEnvironmentVariable(named = "profile", matches = "dev"), @EnabledIfEnvironmentVariable(named = "psql_passwad", matches = "mangekyo")})
+    public void testEnabledIfEnvironmentVariables() {
+        System.out.println("testEnabledIfEnvironmentVariables jalan");
+    }
+
+    // jika profile nya itu prod dan test pada environment variable maka test ini tidak akan dijalankan
+    @Test @DisabledIfEnvironmentVariables(value = {@DisabledIfEnvironmentVariable(named = "profile", matches = "prod"), @DisabledIfEnvironmentVariable(named = "profile", matches = "test")})
+    public void testDisabledIfEnvironmentVariables() {
+        System.out.println("testDisabledIfEnvironmentVariables");
     }
 }
