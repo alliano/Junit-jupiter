@@ -857,3 +857,63 @@ public class RandomCalculatorTest {
     }
 }
 ```
+
+# Pewarisan pada Unit Test
+
+JUnit mendukung pewarisan pada unit test, artinya jikalau kita membuat class atau interface dan menambahkan informasi pada class test tersebut, maka ketika kita membuat class unit test turunanya, secara otomatis semua fitur pada class unit test parent nya akan dimiliki oleh turunanya.
+Ini sanagat cocok ketika kita sering membuat code yang mana kode tersebut dibutuhkan pada class lain.
+
+example :
+``` java
+/**
+ * Semua class yang extend class ini maka semua annnotasi dan method unit test di class ini
+ * akan dimiliki oleh class yang meng extend class ini
+ */
+@Extensions(value = {
+    @ExtendWith(value = RandomParameterResolver.class)
+})@TestInstance(value = Lifecycle.PER_CLASS)
+public class ParentCalculatorTest {
+
+    protected Calculator calculator = new Calculator();
+
+    @BeforeAll
+    public void setup() {
+        System.out.println("Before All");
+    }
+}
+```
+
+contoh class yang meng extend 
+``` java
+/**
+ * Kelas ini akan memwarisi atau memiliki apapun itu property ataupun method ataupun annotation
+ * yang ada pada parenc class nya, yaitu ParentCalculatorTest
+ */
+public class RandomCalculatorExtendTest extends ParentCalculatorTest {
+    
+    @Test
+    public void testAddCalculator(Random random, TestInfo testInfo) {
+        
+        int bilanganPertama = random.nextInt();
+
+        int bilanganKedua = random.nextInt();
+
+        int expected = (bilanganPertama+bilanganKedua);
+
+        Integer result = this.calculator.add(bilanganPertama, bilanganKedua);
+
+        Assertions.assertEquals(expected, result);
+
+        System.out.println(testInfo.getTestClass().get());
+    }
+
+    // annotasi @AfterAll hanya bisa digunakan pada method static berhubung paren class ini 
+    // memiliki annotasi @TestInstance(value = Lifecycle.PER_CLASS) maka annotasi ini bisa
+    // digunakan walaupun bukan pada method static, ini adalah keuntungan menggunakan
+    // annotasi @TestInstance(value = Lifecycle.PER_CLASS)
+    @AfterAll
+    public void tearDown() {
+        System.out.println("After All");
+    }
+}
+```
