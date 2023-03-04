@@ -917,3 +917,19 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
     }
 }
 ```
+
+# Test Berulang
+
+JUnit mendukung eksekusi unit test berulang kali sesuai dengan jumlah yang kita tentukan.
+Untuk mengulang eksekusi uniy test, kita bisa menggunakan annotation @RepetedTest() pada method unit test nya.
+@RepetedTest() juga bisa digunakan untuk mengubah detail nama test nya, dan kita bisa menggunakan value {displayName} untuk mendapatkan display name, {currentRepetiton} untuk mendapatkan perulanagan keberapa saat ini, {totalRepetition} untuk mendapatkan total perulanaganya.
+
+example : 
+``` java
+    @DisplayName(value = "Test Repetitions")
+    // parameter value adalah jumlah repetisi yang kita mau inginkan
+    @RepeatedTest(value = 10, name = "{displayName} ke {currentRepetition} dari {totalRepetitions}")
+    public void repeatedTest() {
+        System.out.println("Repetition Test");
+    }
+```
