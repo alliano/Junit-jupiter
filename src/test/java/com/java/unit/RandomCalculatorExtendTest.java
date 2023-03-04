@@ -4,6 +4,8 @@ import java.util.Random;
 
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
@@ -32,5 +34,13 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
     @AfterAll
     public void tearDown() {
         System.out.println("After All");
+    }
+
+
+    @DisplayName(value = "Test Repetitions")
+    // parameter value adalah jumlah repetisi yang kita mau inginkan
+    @RepeatedTest(value = 10, name = "{displayName} ke {currentRepetition} dari {totalRepetitions}")
+    public void repeatedTest() {
+        System.out.println("Repetition Test");
     }
 }
