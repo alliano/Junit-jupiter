@@ -4,7 +4,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.Timeout;
+import org.junit.jupiter.api.parallel.Execution;
+import org.junit.jupiter.api.parallel.ExecutionMode;
 
+// agar class unit test ini dieksekusi secara parallel kita harus menambahakan 
+// annotasi @Execution(value = ExecutionMode)
+@Execution(value = ExecutionMode.CONCURRENT)
 public class SlowTest {
 
     @Test
@@ -17,8 +22,22 @@ public class SlowTest {
      * @throws InterruptedException
      */
     @Timeout(value = 4, unit = TimeUnit.SECONDS)
-    public void testSlow() throws InterruptedException {
+    public void testSlow1() throws InterruptedException {
 
-        Thread.sleep(10_000);
+        Thread.sleep(2_000);
+    }
+
+    @Test
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow2() throws InterruptedException {
+
+        Thread.sleep(2_000);
+    }
+    
+    @Test
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow3() throws InterruptedException {
+
+        Thread.sleep(2_000);
     }
 }
