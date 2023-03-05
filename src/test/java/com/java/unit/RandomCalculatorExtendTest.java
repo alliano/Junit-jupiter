@@ -1,5 +1,6 @@
 package com.java.unit;
 
+import java.util.List;
 import java.util.Random;
 
 import org.junit.jupiter.api.AfterAll;
@@ -10,6 +11,7 @@ import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 /**
@@ -65,7 +67,31 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
         Integer result = this.calculator.add(value, value);
 
         Assertions.assertEquals(expected, result);
-        
+
         System.out.println("Test dentgan parameter "+ value);
+    }
+
+    // method ini akan dijadikan parameter pada annotasi @MethodSource()
+    public static List<Integer> parameterTestSource() {
+        return List.of(1,2,3,4,5,6,7,8,9,10);
+    }
+
+    @DisplayName(value = "testMethodSource")
+    @ParameterizedTest(name = "{displayName} ke {0}")
+    // pada parameter @MethodSource() disni kita isikan nama method yang menjadi sumeber data yang kita
+    // ingin jadikan sebagai parameter pada method unit test, dalam konteks ini method parameterTestSource()
+    // yang dijadikan sebagai parameter pada annotasi @MethodSource()
+    // dan nilai return dari method parameterTestSource() akan di iterasi dan tiap tiap elemen array nya
+    // akan dijadikan parameter pada method unit testMethodSource() satu per satu.
+    @MethodSource(value = {"parameterTestSource"})
+    public void testMethodSource(int value) {
+
+       int expected = (value / value);
+
+       Integer result = this.calculator.divide(value, value);
+
+       Assertions.assertEquals(expected, result);
+
+       System.out.println("test dengan parameter "+value);
     }
 }
