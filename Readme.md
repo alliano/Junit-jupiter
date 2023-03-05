@@ -960,11 +960,8 @@ Yang perlu kita lakukan adalah dengan mengganti annotasi @Test() menajadi @Param
 
 @ParameterizedTest() mendukung beberapa sumber parameter, yaitu:
 @ValueSource(), untuk parameter yang bertipe Number, Char, Boolean, dan String.
-@EnumSource(), untuk parameter yang berupa Enum.
-@MethodSource(), untuk parameter yang bertipe dari static method.
-@CsvSource(), untuk parameter berupa data CSV.
-@CsvFileSource(), utnuk parameter berupa file CSV.
-@ArgumentSource(), utnk parameter dari class ArgumentProvider.
+
+example :
 ``` java
     @DisplayName(value = "Test Calculator with parameter")
     @ParameterizedTest(name = "{displayName} with parameter {0}")
@@ -983,3 +980,36 @@ Yang perlu kita lakukan adalah dengan mengganti annotasi @Test() menajadi @Param
         System.out.println("Test dentgan parameter "+ value);
     }
 ```
+
+@MethodSource(), untuk parameter yang bertipe dari static method.
+
+example :
+``` java
+    // method ini akan dijadikan parameter pada annotasi @MethodSource()
+    public static List<Integer> parameterTestSource() {
+        return List.of(1,2,3,4,5,6,7,8,9,10);
+    }
+
+    @DisplayName(value = "testMethodSource")
+    @ParameterizedTest(name = "{displayName} ke {0}")
+    // pada parameter @MethodSource() disni kita isikan nama method yang menjadi sumeber data yang kita
+    // ingin jadikan sebagai parameter pada method unit test, dalam konteks ini method parameterTestSource()
+    // yang dijadikan sebagai parameter pada annotasi @MethodSource()
+    // dan nilai return dari method parameterTestSource() akan di iterasi dan tiap tiap elemen array nya
+    // akan dijadikan parameter pada method unit testMethodSource() satu per satu.
+    @MethodSource(value = {"parameterTestSource"})
+    public void testMethodSource(int value) {
+
+       int expected = (value / value);
+
+       Integer result = this.calculator.divide(value, value);
+
+       Assertions.assertEquals(expected, result);
+
+       System.out.println("test dengan parameter "+value);
+    }
+```
+@EnumSource(), untuk parameter yang berupa Enum.
+@CsvSource(), untuk parameter berupa data CSV.
+@CsvFileSource(), utnuk parameter berupa file CSV.
+@ArgumentSource(), utnk parameter dari class ArgumentProvider.
