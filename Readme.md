@@ -1048,6 +1048,43 @@ Namun perlu diingat unit test kita harus independen, unit test satu dengan yang 
 
 Hal pertama yang kita perlu lakukan adalah membuat file dengan nama junit-platform.properties pada folder resource (sejajar dengan forlder java pada folder test).
 Lalu kita tambahakan konfigurasi sebagai berikut :
-``` properties
+``` bash
 junit.jupiter.execution.parallel.enabled = true
+```
+
+# @Execution()
+
+Walaupun sudah mengaktifkan fitur execution secara parallel pada unit test, bukan berarti secara otomatis semua unit test berjalan secara parallel.
+Agar unit test berjalan parallel kita perlu memberi annotation @Execution().
+Lalu memilih jenis eksekusi nya, misal untuk execution secara parallel kita bisa menggunakan ExecutionMode.CONCURRENT.
+
+example :
+``` java
+// agar class unit test ini dieksekusi secara parallel kita harus menambahakan 
+// annotasi @Execution(value = ExecutionMode)
+@Execution(value = ExecutionMode.CONCURRENT)
+public class SlowTest {
+
+    @Test
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow1() throws InterruptedException {
+
+        Thread.sleep(2_000);
+    }
+
+    @Test
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow2() throws InterruptedException {
+
+        Thread.sleep(2_000);
+    }
+    
+    @Test
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow3() throws InterruptedException {
+
+        Thread.sleep(2_000);
+    }
+}
+
 ```
