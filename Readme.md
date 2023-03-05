@@ -933,3 +933,18 @@ example :
         System.out.println("Repetition Test");
     }
 ```
+
+# Informasi Perulangan
+
+@RepetedTest() juga memiliki object RepetisionInfor yang di inject oleh class RepitisionInforParameterResolver, sehingga kita bisa mendapatkan informasi ReperisionInfo melalui parameter pada unit test.
+
+example : 
+``` java
+    @DisplayName(value = "test_repetision_info")
+    @RepeatedTest(value = 10, name = "{displayName}")
+    // parameter pada method ini akan di inject oleh class RepetitionInfoParameterResolver 
+    // mekanisme proses injec nya sama dengan saat kita membuat RandomTestParameterResolver
+    public void testRepetisionInfo(RepetitionInfo repetitionInfo, TestInfo testInfo) {
+        System.out.println(testInfo.getDisplayName()+" ke "+repetitionInfo.getCurrentRepetition()+" dari "+repetitionInfo.getTotalRepetitions());
+    }
+```
