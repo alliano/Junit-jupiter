@@ -6,6 +6,7 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.RepeatedTest;
+import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
 
@@ -42,5 +43,13 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
     @RepeatedTest(value = 10, name = "{displayName} ke {currentRepetition} dari {totalRepetitions}")
     public void repeatedTest() {
         System.out.println("Repetition Test");
+    }
+
+    @DisplayName(value = "test_repetision_info")
+    @RepeatedTest(value = 10, name = "{displayName}")
+    // parameter pada method ini akan di inject oleh class RepetitionInfoParameterResolver 
+    // mekanisme proses injec nya sama dengan saat kita membuat RandomTestParameterResolver
+    public void testRepetisionInfo(RepetitionInfo repetitionInfo, TestInfo testInfo) {
+        System.out.println(testInfo.getDisplayName()+" ke "+repetitionInfo.getCurrentRepetition()+" dari "+repetitionInfo.getTotalRepetitions());
     }
 }
