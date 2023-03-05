@@ -1037,3 +1037,17 @@ example :
         Thread.sleep(10_000);
     }
 ```
+
+# Eksekusi Test Secara Paralel
+
+Secara default, JUnit tidak mendukung eksekusi unit test secara paralel, artinya unit test akan di jalankan secara sequential atau satu persatu.
+Namun Kadang ada kasus dimna kita ingin mempercepat proses unit test sehinnga kita harus menjalankan unit test secara paralel, hal ini bisa dilakuakn di JUnit.
+Namun perlu diingat unit test kita harus independen, unit test satu dengan yang lain tidakboleh berketergantungan.
+
+# Menambahakan Configuration Paralel.
+
+Hal pertama yang kita perlu lakukan adalah membuat file dengan nama junit-platform.properties pada folder resource (sejajar dengan forlder java pada folder test).
+Lalu kita tambahakan konfigurasi sebagai berikut :
+``` properties
+junit.jupiter.execution.parallel.enabled = true
+```
