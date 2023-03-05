@@ -1111,7 +1111,7 @@ Mockito juga bisa di intregasikan dengan JUnit dengan baik.
 ref : https://site.mockito.org/
 
 Untuk menggunakan framework mockito, terlebih dahulu kita tambahkan dependency pada file pom.xml kita.
-untuk versi mockito latest nya bisa cek disini <p>https://central.sonatype.com/search?smo=true&q=mockito-junit-jupiter<p>
+untuk versi mockito latest nya bisa cek disini<p>https://central.sonatype.com/search?smo=true&q=mockito-junit-jupiter<p>
 ```xml
 <dependency>
     <groupId>org.mockito</groupId>
