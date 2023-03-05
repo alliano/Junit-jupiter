@@ -1120,3 +1120,207 @@ untuk versi mockito latest nya bisa cek disini<p>https://central.sonatype.com/se
 </dependency>
 ```
 
+cara menggunakan mockito :
+``` java
+    @Test
+    public void testMock() {
+
+        // membuat object mocking 
+        List<String> listMock = Mockito.mock(List.class);
+
+        /** membuat perilaku object listMock
+         * ketika mothod get() di panggil dengan parameter 0 maka 
+         * object mocking nya akan mereturn atau mengembalikan object string Alliano
+         */
+        Mockito.when(listMock.get(0)).thenReturn("Alliano");
+
+        System.out.println(listMock.get(0));
+        
+        System.out.println(listMock.get(0));
+        
+        /**
+         * dan ketika method get() dengan parameter 0 pada object moking yang kita buat 
+         * (listMock) dipanggil lebih dari 2 kali maka akan terjadi throwig exception
+         * artinya method get(0) pada object listMock hanya boleh di panggil sebanyak
+         * dua kali.
+         */
+        Mockito.verify(listMock, Mockito.times(2)).get(0);
+    }
+```
+
+# Mocking di Unit Test
+
+Mokito memiliki MokitoExtension yang kita bisa gunakan untuk intregasi dengan JUnit.
+Hal ini memudahkan kita ketika kita ingin membuat mock object, kita cukup gunakan annotasi @Mock.
+Sebelum menggunakan annotasi @Mock kita perlu meregistrasikan class MockitoExtension dengan menggunakan bantuan dari annnotasi @Extension()
+
+example cara registrasikan MockitoExtension 
+``` java
+@Extensions(value = {
+    @ExtendWith(value = MockitoExtension.class)
+})
+public class MokigTest {
+    // unit test code
+}
+```
+
+# Contoh kasus
+
+Kita punya sebuah class model degan nama class Person(id: String, name: String).
+``` java
+public class Person {
+
+    private String id;
+
+    private String name;
+
+    public Person() {
+    }
+
+    public Person(String id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return "Person [id=" + id + ", name=" + name + "]";
+    }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((id == null) ? 0 : id.hashCode());
+        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        Person other = (Person) obj;
+        if (id == null) {
+            if (other.id != null)
+                return false;
+        } else if (!id.equals(other.id))
+            return false;
+        if (name == null) {
+            if (other.name != null)
+                return false;
+        } else if (!name.equals(other.name))
+            return false;
+        return true;
+    }
+}
+```
+Selanjutnya kita memiliki interface PersonRepository, sebagai interaksi ke database dan memiliki function atau method selctPersonById(id: String) untuk mendapatkan data person berdasarkan id nya di dalam database (ini hanya sebagai contohnya saja, kita tidak sampai terkoneksi ke database).
+``` java
+public interface PersonRepository {
+    
+    public Person findByPersonId(String id);
+    
+}
+```
+Dan yang terakhir kita memiliki class PersonService untuk mendapatkan data dari database, dan jika gagal maka kita akan meng throw Exception.
+``` java
+public class PersonService {
+    
+    private final PersonRepository personRepository;
+
+    public PersonService(PersonRepository personRepository) {
+        this.personRepository = personRepository;
+    }
+
+    public Person getPersonById(String id) {
+        Person person = this.personRepository.findByPersonId(id);
+        if(person != null) {
+            return person;
+        }
+        else {
+            throw new IllegalArgumentException("Person not found");
+        }
+    }
+}
+```
+code unit test nya sebagai berikut :
+
+``` java
+@Extensions(value = {
+    @ExtendWith(value = MockitoExtension.class)
+})
+public class PersonServiceTest {
+    
+    /**
+     * kita bisa langsung membuat object mock nya dengan menggunakan annotasi @Mock
+     * kita tidak perlu membuat manual seperti ini :
+     * Mockito.mock(Interface.class);
+     * karnya ketika kita menggunakan annotasi @Mock() secara otomatis object mock
+     * akan di buatkan secara otomatis oleh Mockito nya dengan bantuan MockitoExtension
+     * yang kita sudah registrasikan diatas.
+     */
+    @Mock
+    private PersonRepository personRepository;
+
+    private PersonService personService;
+
+    // disni kita inject personService nya
+    @BeforeEach()
+    public void setUp() {
+        this.personService = new PersonService(personRepository);
+    }
+
+    @Test
+    public void testGetPersonNotFound() {
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            this.personService.getPersonById("1");
+        });
+    }
+
+    @Test
+    public void testGetPersonSuccess() {
+
+        /**
+         * menambahkan beavior kepada mock object (personRepository)
+         * sekenarionya sebagai berikut :
+         * ketika method findByPersonId("1") di panggill maka 
+         * akan mereturn object new Person("1", "Alliano")
+         */
+        Mockito.when(this.personRepository.findByPersonId("1")).thenReturn(new Person("1", "Alliano"));
+
+        Assertions.assertNotNull(this.personRepository.findByPersonId("1"));
+
+        Assertions.assertEquals(this.personRepository.findByPersonId("1"), new Person("1", "Alliano"));
+
+        // ini bacanya jikalau method findByPersonId("1") ini dipanggil lebih dari 2 kali
+        // maka akan men throw exception dan unit test akan gagal.
+        Mockito.verify(this.personRepository, Mockito.times(2)).findByPersonId("1");
+    }
+}
+```
+
+
+
+
+
