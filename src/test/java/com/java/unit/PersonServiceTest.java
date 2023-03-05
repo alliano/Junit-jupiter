@@ -1,5 +1,8 @@
 package com.java.unit;
 
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -59,8 +62,24 @@ public class PersonServiceTest {
 
         Assertions.assertEquals(this.personRepository.findByPersonId("1"), new Person("1", "Alliano"));
 
-        // ini bacanya jikalau method findByPersonId("1") ini dipanggil lebih dari 2 kali
-        // maka akan men throw exception dan unit test akan gagal.
-        Mockito.verify(this.personRepository, Mockito.times(2)).findByPersonId("1");
     }
+
+    @Test
+    public void testRegisterSuccess() {
+        
+        Person person = this.personService.register("Alliano");
+
+        Assertions.assertNotNull(person);
+
+        Assertions.assertEquals("Alliano", person.getName());
+
+        Assertions.assertNotNull(person.getId());
+
+        // ini artinya method register pada presonService harus dipanggil 1 x jikalau
+        // tidak di panggil lebih dari 1 kali maka akan gagal dan jikalau tidak 
+        // dipanggil sama sekali maka akan gagal juga unit test ini
+        verify(this.personRepository, times(1)).insert(new Person(person.getId(), person.getName()));
+    }
+
+
 }
