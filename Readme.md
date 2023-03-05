@@ -967,8 +967,11 @@ Yang perlu kita lakukan adalah dengan mengganti annotasi @Test() menajadi @Param
 @ArgumentSource(), utnk parameter dari class ArgumentProvider.
 ``` java
     @DisplayName(value = "Test Calculator with parameter")
-    @ParameterizedTest(name = "{displayName} with data {0}")
+    @ParameterizedTest(name = "{displayName} with parameter {0}")
     @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10})
+    // nantinya value dari ints = {} itu akan di iterasi (dilakuakn perulangan) untuk dimasukan 
+    // ke parameter unit unit test ini, dalam kasus kita ini kita memiliki value 1 - 10 maka 
+    // nilai tersebut akan di interasi dan dimasukan sebagai parameter unit test ini 1 per 1
     public void testWithParameter(int value) {
         System.out.println("Test dentgan parameter "+ value);
     }
