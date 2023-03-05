@@ -9,6 +9,8 @@ import org.junit.jupiter.api.RepeatedTest;
 import org.junit.jupiter.api.RepetitionInfo;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInfo;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Kelas ini akan memwarisi atau memiliki apapun itu property ataupun method ataupun annotation
@@ -51,5 +53,12 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
     // mekanisme proses injec nya sama dengan saat kita membuat RandomTestParameterResolver
     public void testRepetisionInfo(RepetitionInfo repetitionInfo, TestInfo testInfo) {
         System.out.println(testInfo.getDisplayName()+" ke "+repetitionInfo.getCurrentRepetition()+" dari "+repetitionInfo.getTotalRepetitions());
+    }
+
+    @DisplayName(value = "Test Calculator with parameter")
+    @ParameterizedTest(name = "{displayName} with data {0}")
+    @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10})
+    public void testWithParameter(int value) {
+        System.out.println("Test dentgan parameter "+ value);
     }
 }
