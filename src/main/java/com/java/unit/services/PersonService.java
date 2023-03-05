@@ -1,5 +1,7 @@
 package com.java.unit.services;
 
+import java.util.UUID;
+
 import com.java.unit.models.Person;
 import com.java.unit.repositories.PersonRepository;
 
@@ -19,5 +21,11 @@ public class PersonService {
         else {
             throw new IllegalArgumentException("Person not found");
         }
+    }
+
+    public Person register(String name) {
+        Person person = new Person(UUID.randomUUID().toString(), name);
+        this.personRepository.insert(person);
+        return person;
     }
 }
