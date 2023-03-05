@@ -59,6 +59,13 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
     @ParameterizedTest(name = "{displayName} with data {0}")
     @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10})
     public void testWithParameter(int value) {
+        
+        int expected = (value + value);
+        
+        Integer result = this.calculator.add(value, value);
+
+        Assertions.assertEquals(expected, result);
+        
         System.out.println("Test dentgan parameter "+ value);
     }
 }
