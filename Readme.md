@@ -948,3 +948,28 @@ example :
         System.out.println(testInfo.getDisplayName()+" ke "+repetitionInfo.getCurrentRepetition()+" dari "+repetitionInfo.getTotalRepetitions());
     }
 ```
+
+# Test Dengan Parameter
+
+Sebelumya kita sudah tau jikalau ingin menambahakan parameter di function atau method unit test nya, maka kita perlu membuat ParameterResolver.
+namun jikalau terlalu banyak membuat implementasi ParameterResolver untuk meng inject parameter pada parameter Unit test kita itu agak menyulitkan kita.
+JUnit memiliki fitur yang @ParameterizedTest(), yang mana annotasi ini dikhususkan utuk method unit test yang memiliki parameter.
+Yang perlu kita lakukan adalah dengan mengganti annotasi @Test() menajadi @ParameterizedTest().
+
+# Source Parameter
+
+@ParameterizedTest() mendukung beberapa sumber parameter, yaitu:
+@ValueSource(), untuk parameter yang bertipe Number, Char, Boolean, dan String.
+@EnumSource(), untuk parameter yang berupa Enum.
+@MethodSource(), untuk parameter yang bertipe dari static method.
+@CsvSource(), untuk parameter berupa data CSV.
+@CsvFileSource(), utnuk parameter berupa file CSV.
+@ArgumentSource(), utnk parameter dari class ArgumentProvider.
+``` java
+    @DisplayName(value = "Test Calculator with parameter")
+    @ParameterizedTest(name = "{displayName} with data {0}")
+    @ValueSource(ints = {1,2,3,4,5,6,7,8,9,10})
+    public void testWithParameter(int value) {
+        System.out.println("Test dentgan parameter "+ value);
+    }
+```
