@@ -1120,7 +1120,7 @@ untuk versi mockito latest nya bisa cek disini<p>https://central.sonatype.com/se
 </dependency>
 ```
 
-cara menggunakan mockito :
+cara menggunakan mockito secara manual:
 ``` java
     @Test
     public void testMock() {
