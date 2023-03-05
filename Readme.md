@@ -1312,13 +1312,77 @@ public class PersonServiceTest {
         Assertions.assertNotNull(this.personRepository.findByPersonId("1"));
 
         Assertions.assertEquals(this.personRepository.findByPersonId("1"), new Person("1", "Alliano"));
-
-        // ini bacanya jikalau method findByPersonId("1") ini dipanggil lebih dari 2 kali
-        // maka akan men throw exception dan unit test akan gagal.
-        Mockito.verify(this.personRepository, Mockito.times(2)).findByPersonId("1");
     }
 }
 ```
+
+# Verification di Mocking
+
+Pada pembahasan sebelumnya kita tidak melakukan verifikasi terhadap object mocking, apakah dipanggil atau tidak.
+Pada kasus sebelumnya mungkin tidak terlalu berguna karna kebetulan functionya atau methodnya mengembalikan value, sehingga jikalau kita lupa memanggil method nya, sudah pasti unit testnya gagal.
+Lantas bagaimana jika Function nya atau method nya tidak megembalikan value ? 
+
+# Contoh Kasus
+
+Kita akan melanjutkan kasus sebelumnya.
+Di interface PersonRepository kita akan membuat method insert(Person: person) yang digunakan untuk menyimpan data ke database, namun tidak mengembalikan value alias void.
+``` java
+    public void insert(Person person);
+```
+Di class PersonService kita akan membuat method register(Stirng: name), akan membuat Object person dengan id random, lalu menyimpan ke database menggunakan interface PersonRepository, lalu mengembalikan Object person tersebut.
+``` java
+    public Person register(String name) {
+        Person person = new Person(UUID.randomUUID().toString(), name);
+        this.personRepository.insert(person);
+        return person;
+    }
+```
+
+code unit test nya sebagai berikut :
+``` java
+    @Test
+    public void testRegisterSuccess() {
+        
+        Person person = this.personService.register("Alliano");
+
+        Assertions.assertNotNull(person);
+
+        Assertions.assertEquals("Alliano", person.getName());
+
+        Assertions.assertNotNull(person.getId());
+    }
+```
+
+# Code Unit Test Salah
+
+secara sekilas code unit test diatas terlihat baik baik saja dan normal.
+Jikalau kita hapus code personrepository.insert(Person person).
+Yang terjadi Unit test nya tetap success.
+Hal ini terjadi karena, kita tidak melakuka verifikasi bahwa mocking object dipanggil.
+Hal ini sangat berbahaya, karena jikalau code ini sampai naik di production, bisa jadi orang yang registrasi datanya tidak masuk kedalam database.
+
+menambahakan verifikasi pada Mocking object :
+``` java
+    @Test
+    public void testRegisterSuccess() {
+        
+        Person person = this.personService.register("Alliano");
+
+        Assertions.assertNotNull(person);
+
+        Assertions.assertEquals("Alliano", person.getName());
+
+        Assertions.assertNotNull(person.getId());
+
+        // ini artinya method register pada presonService harus dipanggil 1 x jikalau
+        // tidak di panggil lebih dari 1 kali maka akan gagal dan jikalau tidak 
+        // dipanggil sama sekali maka akan gagal juga unit test ini
+        verify(this.personRepository, times(1)).insert(new Person(person.getId(), person.getName()));
+    }
+```
+
+
+
 
 
 
