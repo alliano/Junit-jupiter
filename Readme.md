@@ -1013,3 +1013,27 @@ example :
 @CsvSource(), untuk parameter berupa data CSV.
 @CsvFileSource(), utnuk parameter berupa file CSV.
 @ArgumentSource(), utnk parameter dari class ArgumentProvider.
+
+# TimeOut Annotation
+
+kadang kita ingin memastikan bahwa sebuah mehtod unit test berjalan tidak lebih dari waktu yang kita tentukan.
+Misalnya ketika kita ingin memastikan kode program kita memiliki performance bagus dan cepat.
+JUnit memiliki annotasi @TimeOut(), yaitu untuk memastikan bahwa method unit test berjalan tidak lebih dari waktu yang ditentukan, jikalau melebhihi waktu yang ditentukan, maka method unitest tesebut harus gagal.
+
+example :
+``` java
+    @Test
+    /**
+     * annotasi @Timeout() memiliki 3 paramter
+     * value = int => digunakan untuk lama waktu yang kita mau
+     * unit = TimeUnit => digunakan untuk memilih satuan waktu yang kita mau
+     * misalnya jikalau value = 4, unit = TimeUnit.SECOND maka artinya 4 detik
+     * jikalau method ini eksekusinya lebih dari 4 detik maka method unti test ini akan gagal
+     * @throws InterruptedException
+     */
+    @Timeout(value = 4, unit = TimeUnit.SECONDS)
+    public void testSlow() throws InterruptedException {
+
+        Thread.sleep(10_000);
+    }
+```
