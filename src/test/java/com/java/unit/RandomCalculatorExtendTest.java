@@ -94,4 +94,5 @@ public class RandomCalculatorExtendTest extends ParentCalculatorTest {
 
        System.out.println("test dengan parameter "+value);
     }
+
 }
