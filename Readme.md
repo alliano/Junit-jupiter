@@ -1086,5 +1086,37 @@ public class SlowTest {
         Thread.sleep(2_000);
     }
 }
-
 ```
+
+# Ketergantungan Antar Class
+
+Saat membuat applikasi yang besar, source code juga akan semakin besar, dan structure class nya juga semakin kompleks.
+Kita bisa memmungkiri lagi bahwa akan ada ketergantungan class.
+Unit test yang bagus itu bisa terprediksi dan cukup negetest 1 function, jika harus mengetes interaksi antar class, lebih disaranakan menggunakan intregation test bukan unit test.
+Lantas bagaimana jika kita harus mengetest class yang ketergantungan dengan calass lain ?
+Solusinya adalah melakukan Mocking terhadap dependency yang dibutuhkan class yang akan ktia test.
+
+# Pengenalan Mocking
+
+Mocking adalah membuat Object tiruan.
+Hal ini dilakukan agar behavior object tersebut bisa kita tentukan sesuai dengan keinginan kita.
+Dengan Mocking, kita bisa membuat request dan response seolah olah Object resebut benar dibuat.
+
+# Pengenalan Mockito
+
+Ada banyak framework untuk melakukan Mocking, salahsatunya yaitu Mockito.
+Mockito adalah salahsatu Framework mocking paling populer di java, dan mockito juga bisa digunakan di bahasa pemograman Kotlin dan bahasa pemograman yang berbasis JVM.
+Mockito juga bisa di intregasikan dengan JUnit dengan baik.
+
+ref : https://site.mockito.org/
+
+Untuk menggunakan framework mockito, terlebih dahulu kita tambahkan dependency pada file pom.xml kita.
+untuk versi mockito latest nya bisa cek disini <p>https://central.sonatype.com/search?smo=true&q=mockito-junit-jupiter<p>
+```xml
+<dependency>
+    <groupId>org.mockito</groupId>
+    <artifactId>mockito-junit-jupiter</artifactId>
+    <version>5.1.1</version>
+</dependency>
+```
+
