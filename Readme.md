@@ -973,6 +973,13 @@ Yang perlu kita lakukan adalah dengan mengganti annotasi @Test() menajadi @Param
     // ke parameter unit unit test ini, dalam kasus kita ini kita memiliki value 1 - 10 maka 
     // nilai tersebut akan di interasi dan dimasukan sebagai parameter unit test ini 1 per 1
     public void testWithParameter(int value) {
+        
+        int expected = (value + value);
+        
+        Integer result = this.calculator.add(value, value);
+
+        Assertions.assertEquals(expected, result);
+        
         System.out.println("Test dentgan parameter "+ value);
     }
 ```
