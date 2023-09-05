@@ -509,9 +509,11 @@ mvn test -Dgroups=test-services,test-intregation-service
 
 JUnit mendukung perubahan urutan eksekusi unit test jika kita mau menggunakan annotasi @TestMethodOrder(value = MethodOrderer).
 Ada beberapa class yang kita bisa gunakan untuk mengurutkan eksekusi unit test.
-MethodName => eksekusi unit test akan di urutkan berdasarkan alphanumeric.
-Random => ururan eksekusi unit test akan secara acak.
-OrderAnnotation => urutan eksekusi unit test nya akan mengikuti annotation @Order yang ada pada tiap tiap mehtod unit test nya.
+|   Method          |   Deskripsi                                                                                                    |
+|-------------------|----------------------------------------------------------------------------------------------------------------|
+|   MethodName      |   eksekusi unit test akan di urutkan berdasarkan alphanumeric.                                                 |
+|   Random          |   ururan eksekusi unit test akan secara acak.                                                                  |
+|   OrderAnnotation |   urutan eksekusi unit test nya akan mengikuti annotation @Order yang ada pada tiap tiap mehtod unit test nya. |
 
 example :
 
